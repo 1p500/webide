@@ -1,2 +1,31 @@
-package com.ip500.webide.controller;public class ProjectController {
+package com.ip500.webide.controller.project;
+
+import com.ip500.webide.common.ApiResponse;
+import com.ip500.webide.controller.project.dto.request.ProjectCreateRequest;
+import com.ip500.webide.service.project.ProjectService;
+import com.ip500.webide.service.project.response.ProjectResponse;
+import com.ip500.webide.service.user.IUserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/project")
+@RequiredArgsConstructor
+public class ProjectController {
+
+    private final ProjectService projectService;
+    @Qualifier("mock")
+    private final IUserService userService;
+
+    @PostMapping("/create")
+    public ApiResponse<ProjectResponse> createProject(@Valid @RequestBody ProjectCreateRequest request) {
+        Long userId = userService.getUserId();
+        return ApiResponse.ok(projectService.createProject(userId, request.toServiceRequest()));
+    }
+
 }
