@@ -46,7 +46,6 @@ public class ProjectControllerDocsTest extends RestDocsSupport {
                                        .id(1L)
                                        .name("테스트 프로젝트")
                                        .description("이 프로젝트는 ~~ 입니다.")
-                                       .chatRoomId(1L)
                                        .build()
                 );
 
@@ -80,9 +79,7 @@ public class ProjectControllerDocsTest extends RestDocsSupport {
                                fieldWithPath("data.name").type(JsonFieldType.STRING)
                                                          .description("프로젝트 이름"),
                                fieldWithPath("data.description").type(JsonFieldType.STRING)
-                                                                .description("프로젝트 설명"),
-                               fieldWithPath("data.chatRoomId").type(JsonFieldType.NUMBER)
-                                                               .description("채팅방 ID")
+                                                                .description("프로젝트 설명")
                        )));
     }
 }

@@ -30,7 +30,10 @@ class ProjectControllerTest extends ControllerTestSupport {
                                .contentType(MediaType.APPLICATION_JSON)
                )
                .andDo(print())
-               .andExpect(status().isOk());
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.code").value("200"))
+               .andExpect(jsonPath("$.status").value("OK"))
+               .andExpect(jsonPath("$.message").value("OK"));
     }
 
     @DisplayName("프로젝트를 생성할 때 이름은 필수값이다.")

@@ -19,5 +19,13 @@ public class ApiControllerAdvice {
         );
     }
 
-
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ApiResponse<Object> exception(Exception e) {
+        return ApiResponse.of(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            e.getMessage(),
+            null
+        );
+    }
 }

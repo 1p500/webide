@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
@@ -20,11 +23,24 @@ public class ProjectService {
 
     @Transactional
     public ProjectResponse createProject(Long userId, ProjectServiceRequest request) {
+
+        // 유저가 동일한 프로젝트가 있을 경우 예외 처리
+        Optional<Project> existingProject = projectRepository.findByOwnerIdAndName(userId, request.getName());
+
+        if (existingProject.isPresent()) {
+            throw new IllegalArgumentException("이미 동일한 이름의 프로젝트가 존재합니다.");
+        }
+
         Project project = request.toEntity(userId);
         Project savedProject = projectRepository.save(project);
 
-        Long chatRoomId = chatRoomService.createChatRoom(savedProject.getId());
-        System.out.println(chatRoomId);
-        return ProjectResponse.of(savedProject, chatRoomId);
+        // 프로젝트 생성시 채팅방 생성
+        chatRoomService.createChatRoom(savedProject.getId());
+
+        return ProjectResponse.of(savedProject);
+    }
+
+    public List<Project> getProjectListByOwnerId(Long userId) {
+        return projectRepository.findByOwnerId(userId);
     }
 }
