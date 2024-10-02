@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
@@ -40,7 +41,11 @@ public class ProjectService {
         return ProjectResponse.of(savedProject);
     }
 
-    public List<Project> getProjectListByOwnerId(Long userId) {
-        return projectRepository.findByOwnerId(userId);
+    public List<ProjectResponse> getProjectListByOwnerId(Long userId) {
+        List<Project> projects = projectRepository.findByOwnerId(userId);
+
+        return projects.stream()
+                       .map(ProjectResponse::of)
+                       .collect(Collectors.toList());
     }
 }
