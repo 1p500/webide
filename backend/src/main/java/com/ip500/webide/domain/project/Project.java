@@ -51,4 +51,9 @@ public class Project {
     protected void onUpdate() {
         modifiedDateTime = LocalDateTime.now();
     }
+
+    public void updateProjectInfo(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }
