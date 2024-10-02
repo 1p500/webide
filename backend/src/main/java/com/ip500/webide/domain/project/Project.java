@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -28,15 +28,6 @@ public class Project {
     // TODO: User 관련 테이블과 매핑 (1:N)
     private Long ownerId;
 
-    // TODO: Chat 관련 테이블과 매핑 (1:1)
-    private Long chatId;
-
-    // TODO: Folder 관련 테이블과 매핑 (1:N)
-    private Long folderId;
-
-    // TODO: File 관련 테이블과 매핑 (1:N)
-    private Long fileId;
-
     @CreatedDate
     private LocalDateTime createdDateTime;
 
@@ -44,11 +35,10 @@ public class Project {
     private LocalDateTime modifiedDateTime;
 
     @Builder
-    private Project(String name, String description, Long ownerId, Long chatId) {
+    private Project(String name, String description, Long ownerId) {
         this.name = name;
         this.description = description;
         this.ownerId = ownerId;
-        this.chatId = chatId;
     }
 
     @PrePersist

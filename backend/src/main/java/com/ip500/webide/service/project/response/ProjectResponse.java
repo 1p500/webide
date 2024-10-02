@@ -10,22 +10,19 @@ public class ProjectResponse {
     private Long id;
     private String name;
     private String description;
-    private Long chatRoomId;
 
     @Builder
-    private ProjectResponse(Long id, String name, String description, Long chatRoomId) {
+    private ProjectResponse(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.chatRoomId = chatRoomId;
     }
 
-    public static ProjectResponse of(Project project, Long chatRoomId) {
+    public static ProjectResponse of(Project project) {
         return ProjectResponse.builder()
                 .id(project.getId())
                 .name(project.getName())
                 .description(project.getDescription())
-                .chatRoomId(chatRoomId)
                 .build();
     }
 }
