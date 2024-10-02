@@ -3,8 +3,8 @@ package com.ip500.webide.service.project;
 import com.ip500.webide.IntegrationTestSupport;
 import com.ip500.webide.domain.project.Project;
 import com.ip500.webide.domain.project.ProjectRepository;
-import com.ip500.webide.service.project.dto.request.ProjectServiceRequest;
-import com.ip500.webide.service.project.response.ProjectResponse;
+import com.ip500.webide.dto.project.request.ProjectServiceRequest;
+import com.ip500.webide.dto.project.response.ProjectResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -76,6 +76,66 @@ class ProjectServiceTest extends IntegrationTestSupport {
         assertThatThrownBy(() -> projectService.createProject(1L, request))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이미 동일한 이름의 프로젝트가 존재합니다.");
+    }
+
+    @DisplayName("프로젝트 정보를 수정할 수 있다.")
+    @Test
+    void updateProject() {
+        // given
+        Project project = projectRepository.save(Project.builder()
+                                                         .ownerId(1L)
+                                                         .name("프로젝트")
+                                                         .description("프로젝트 설명")
+                                                         .build());
+
+        ProjectServiceRequest request = ProjectServiceRequest.builder()
+                                                             .name("수정된 프로젝트")
+                                                             .description("수정된 프로젝트 설명")
+                                                             .build();
+
+        // when
+        ProjectResponse projectResponse = projectService.updateProject(1L, project.getId(), request);
+
+        // then
+        assertThat(projectResponse)
+                .extracting("name", "description")
+                .contains("수정된 프로젝트", "수정된 프로젝트 설명");
+    }
+
+    @DisplayName("프로젝트 정보를 수정할 때 프로젝트를 찾을 수 없는 경우 예외가 발생한다.")
+    @Test
+    void updateProjectWithNotFoundProject() {
+        // given
+        ProjectServiceRequest request = ProjectServiceRequest.builder()
+                                                             .name("수정된 프로젝트")
+                                                             .description("수정된 프로젝트 설명")
+                                                             .build();
+
+        // when & then
+        assertThatThrownBy(() -> projectService.updateProject(1L, 1L, request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("프로젝트를 찾을 수 없습니다.");
+    }
+
+    @DisplayName("프로젝트 정보를 수정할 때 프로젝트의 소유자가 아닌 경우 예외가 발생한다.")
+    @Test
+    void updateProjectWithNotOwner() {
+        // given
+        Project project = projectRepository.save(Project.builder()
+                                                         .ownerId(1L)
+                                                         .name("프로젝트")
+                                                         .description("프로젝트 설명")
+                                                         .build());
+
+        ProjectServiceRequest request = ProjectServiceRequest.builder()
+                                                             .name("수정된 프로젝트")
+                                                             .description("수정된 프로젝트 설명")
+                                                             .build();
+
+        // when & then
+        assertThatThrownBy(() -> projectService.updateProject(2L, project.getId(), request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("프로젝트의 소유자가 아닙니다.");
     }
 
     private Project createProject(Long ownerId, String name, String description) {

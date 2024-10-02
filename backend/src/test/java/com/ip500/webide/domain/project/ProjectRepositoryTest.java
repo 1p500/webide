@@ -86,6 +86,22 @@ class ProjectRepositoryTest extends IntegrationTestSupport {
                             );
     }
 
+    @DisplayName("프로젝트 정보를 변경할 수 있다.")
+    @Test
+    void updateProject() {
+        // given
+        Project project = createProject(1L, "프로젝트", "설명");
+        projectRepository.save(project);
+
+        // when
+        project.updateProjectInfo("프로젝트 수정", "설명 수정");
+        Project updatedProject = projectRepository.save(project);
+
+        // then
+        assertThat(updatedProject.getName()).isEqualTo("프로젝트 수정");
+        assertThat(updatedProject.getDescription()).isEqualTo("설명 수정");
+    }
+
     private Project createProject(Long ownerId, String name, String description) {
         return Project.builder()
                       .ownerId(ownerId)

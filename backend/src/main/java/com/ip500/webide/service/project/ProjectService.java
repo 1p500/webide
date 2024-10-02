@@ -3,8 +3,8 @@ package com.ip500.webide.service.project;
 import com.ip500.webide.domain.project.Project;
 import com.ip500.webide.domain.project.ProjectRepository;
 import com.ip500.webide.service.chat.ChatRoomService;
-import com.ip500.webide.service.project.dto.request.ProjectServiceRequest;
-import com.ip500.webide.service.project.response.ProjectResponse;
+import com.ip500.webide.dto.project.request.ProjectServiceRequest;
+import com.ip500.webide.dto.project.response.ProjectResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +22,7 @@ public class ProjectService {
     // TODO: chatRoomService 매핑
     private final ChatRoomService chatRoomService;
 
+    // 프로젝트 생성
     @Transactional
     public ProjectResponse createProject(Long userId, ProjectServiceRequest request) {
 
@@ -41,11 +42,28 @@ public class ProjectService {
         return ProjectResponse.of(savedProject);
     }
 
+    // 프로젝트 리스트 조회
     public List<ProjectResponse> getProjectListByOwnerId(Long userId) {
         List<Project> projects = projectRepository.findByOwnerId(userId);
 
         return projects.stream()
                        .map(ProjectResponse::of)
                        .collect(Collectors.toList());
+    }
+
+    // 프로젝트 수정
+    @Transactional
+    public ProjectResponse updateProject(Long userId, Long projectId, ProjectServiceRequest serviceRequest) {
+        Project project = projectRepository.findById(projectId)
+                                           .orElseThrow(() -> new IllegalArgumentException("프로젝트를 찾을 수 없습니다."));
+
+        if (!project.getOwnerId().equals(userId)) {
+            throw new IllegalArgumentException("프로젝트의 소유자가 아닙니다.");
+        }
+
+        project.updateProjectInfo(serviceRequest.getName(), serviceRequest.getDescription());
+        Project updatedProject = projectRepository.save(project);
+
+        return ProjectResponse.of(updatedProject);
     }
 }

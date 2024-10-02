@@ -1,9 +1,9 @@
 package com.ip500.webide.controller.project;
 
 import com.ip500.webide.ControllerTestSupport;
-import com.ip500.webide.controller.project.dto.request.ProjectCreateRequest;
+import com.ip500.webide.dto.project.request.ProjectCreateRequest;
 import com.ip500.webide.domain.project.Project;
-import com.ip500.webide.service.project.response.ProjectResponse;
+import com.ip500.webide.dto.project.response.ProjectResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -11,8 +11,7 @@ import org.springframework.http.MediaType;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -109,6 +108,34 @@ class ProjectControllerTest extends ControllerTestSupport {
                .andExpect(jsonPath("$.status").value("OK"))
                .andExpect(jsonPath("$.message").value("OK"))
                .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+    @DisplayName("프로젝트를 수정한다.")
+    @Test
+    void updateProject() throws Exception {
+        // given
+        Long userId = 1L;
+        Long projectId = 1L;
+        ProjectCreateRequest request = ProjectCreateRequest.builder()
+                                                           .name("수정된 프로젝트")
+                                                           .description("수정된 프로젝트 설명")
+                                                           .build();
+
+        given(userService.getUserId()).willReturn(userId);
+        given(projectService.updateProject(userId, projectId, request.toServiceRequest()))
+                .willReturn(ProjectResponse.of(createProject(userId, "수정된 프로젝트", "수정된 프로젝트 설명")));
+
+        // when & then
+        mockMvc.perform(
+                       put("/project/1")
+                               .content(objectMapper.writeValueAsString(request))
+                               .contentType(MediaType.APPLICATION_JSON)
+               )
+               .andDo(print())
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.code").value("200"))
+               .andExpect(jsonPath("$.status").value("OK"))
+               .andExpect(jsonPath("$.message").value("OK"));
     }
 
     private Project createProject(Long ownerId, String name, String description) {
