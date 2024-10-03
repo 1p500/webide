@@ -1,4 +1,4 @@
-package com.ip500.webide.contorller.folderfile;
+package com.ip500.webide.controller.folderfile;
 
 import com.ip500.webide.domain.folderfile.File;
 import com.ip500.webide.domain.folderfile.FileRepository;
