@@ -22,7 +22,12 @@ public class ProjectService {
     // TODO: chatRoomService 매핑
     private final ChatRoomService chatRoomService;
 
-    // 프로젝트 생성
+    /**
+     * 프로젝트 생성
+     * @param userId 사용자 ID
+     * @param request 프로젝트 생성 요청 DTO
+     * @return ProjectResponse 생성된 프로젝트 응답 DTO
+     */
     @Transactional
     public ProjectResponse createProject(Long userId, ProjectServiceRequest request) {
 
@@ -42,7 +47,11 @@ public class ProjectService {
         return ProjectResponse.of(savedProject);
     }
 
-    // 프로젝트 리스트 조회
+    /**
+     * 사용자 ID로 프로젝트 리스트 조회
+     * @param userId 사용자 ID
+     * @return List<ProjectResponse> 프로젝트 응답 DTO 리스트
+     */
     public List<ProjectResponse> getProjectListByOwnerId(Long userId) {
         List<Project> projects = projectRepository.findByOwnerId(userId);
 
@@ -51,7 +60,13 @@ public class ProjectService {
                        .collect(Collectors.toList());
     }
 
-    // 프로젝트 수정
+    /**
+     * 프로젝트 수정
+     * @param userId 사용자 ID
+     * @param projectId 프로젝트 ID
+     * @param serviceRequest 프로젝트 수정 요청 DTO
+     * @return ProjectResponse 수정된 프로젝트 응답 DTO
+     */
     @Transactional
     public ProjectResponse updateProject(Long userId, Long projectId, ProjectServiceRequest serviceRequest) {
         Project project = projectRepository.findById(projectId)
