@@ -1,4 +1,7 @@
 spring:
+  output:
+    ansi:
+      enabled: ALWAYS
   profiles:
     default: local
 
@@ -11,9 +14,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-
+  jwt:
+    secret: ${JWT_SECRET}
 ---
 spring:
+  output:
+    ansi:
+      enabled: ALWAYS
   config:
     activate:
       on-profile: local
@@ -33,6 +40,9 @@ spring:
 
 ---
 spring:
+  output:
+    ansi:
+      enabled: ALWAYS
   config:
     activate:
       on-profile: test

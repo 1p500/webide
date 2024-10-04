@@ -1,20 +1,12 @@
 "use client";
 
 import Image from 'next/image';
-import { SocialLoginGithub, SocialLoginGoogle, SocialLoginGuest } from '@/components/SocialLoginButtons';
+import { SocialLoginGoogle, SocialLoginGuest, SocialLoginGithub } from '@/components/SocialLoginButtons';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Home() {
   const router = useRouter();
-
-  const handleSignupClick = () => {
-    router.push('/signup'); // /signup 페이지로 이동
-  };
-
-  const handleLoginClick = () =>{
-    router.push('/ide')
-  }
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-black">
@@ -37,35 +29,30 @@ export default function Home() {
                 className="w-full p-3 rounded-md border border-gray-300"
               />
             </div>
-            
             <div className="w-full text-center bg-black text-white py-3 rounded-md font-semibold"            >
               <Link href="/ide"> Login  </ Link>
             </div>
             <div className="w-full text-center bg-black text-white py-3 rounded-md font-semibold"            >
               <Link href="/signup"> 회원가입</ Link>
             </div>
-            
-          </div>          
-
-          <p className="text-center mt-5 font-medium">Login with Others</p>
-          <div className="flex flex-col mt-4 space-y-2">
-            <SocialLoginGoogle />
-            <SocialLoginGithub />
-            <SocialLoginGuest />
+            <p className="text-center mt-5 font-medium">Login with Others</p>
+            <div className="flex flex-col mt-4 space-y-2">
+              <SocialLoginGoogle />
+              <SocialLoginGithub />
+              <SocialLoginGuest />
+            </div>
           </div>
-        </div>
 
         {/* 오른쪽: 이미지 */}
-        <div className="w-1/2 p-5 flex items-center justify-center">
-          
-            <Image
-              src="/temp_main_image.png"
-              alt="Coding Illustration"
-              width="100"
-              height="100"
-              className="rounded-3xl"
-            />
-          
+          <div className="w-1/2 p-5 flex items-center justify-center">
+              <Image
+                src="/temp_main_image.png"
+                alt="Coding Illustration"
+                width="100"
+                height="100"
+                className="rounded-3xl"
+              />
+          </div>
         </div>
       </div>
     </div>

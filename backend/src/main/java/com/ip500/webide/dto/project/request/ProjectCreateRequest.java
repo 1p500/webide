@@ -1,9 +1,6 @@
-package com.ip500.webide.controller.project.dto.request;
+package com.ip500.webide.dto.project.request;
 
-import com.ip500.webide.domain.project.Project;
-import com.ip500.webide.service.project.dto.request.ProjectServiceRequest;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

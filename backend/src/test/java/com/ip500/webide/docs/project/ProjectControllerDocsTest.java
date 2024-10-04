@@ -1,12 +1,11 @@
 package com.ip500.webide.docs.project;
 
 import com.ip500.webide.controller.project.ProjectController;
-import com.ip500.webide.controller.project.dto.request.ProjectCreateRequest;
+import com.ip500.webide.dto.project.request.ProjectCreateRequest;
 import com.ip500.webide.docs.RestDocsSupport;
 import com.ip500.webide.service.project.ProjectService;
-import com.ip500.webide.service.project.dto.request.ProjectServiceRequest;
-import com.ip500.webide.service.project.response.ProjectResponse;
-import com.ip500.webide.service.user.IUserService;
+import com.ip500.webide.dto.project.request.ProjectServiceRequest;
+import com.ip500.webide.dto.project.response.ProjectResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -25,11 +24,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ProjectControllerDocsTest extends RestDocsSupport {
 
     private final ProjectService projectService = mock(ProjectService.class);
-    private final IUserService userService = mock(IUserService.class);
 
     @Override
     protected Object initController() {
-        return new ProjectController(projectService, userService);
+        return new ProjectController(projectService);
     }
 
     @DisplayName("프로젝트 생성 API")
