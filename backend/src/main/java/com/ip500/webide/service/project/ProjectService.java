@@ -24,21 +24,21 @@ public class ProjectService {
 
     /**
      * 프로젝트 생성
-     * @param userId 사용자 ID
+     * @param memberId 사용자 ID
      * @param request 프로젝트 생성 요청 DTO
      * @return ProjectResponse 생성된 프로젝트 응답 DTO
      */
     @Transactional
-    public ProjectResponse createProject(Long userId, ProjectServiceRequest request) {
+    public ProjectResponse createProject(Long memberId, ProjectServiceRequest request) {
 
         // 유저가 동일한 프로젝트가 있을 경우 예외 처리
-        Optional<Project> existingProject = projectRepository.findByOwnerIdAndName(userId, request.getName());
+        Optional<Project> existingProject = projectRepository.findByOwnerIdAndName(memberId, request.getName());
 
         if (existingProject.isPresent()) {
             throw new IllegalArgumentException("이미 동일한 이름의 프로젝트가 존재합니다.");
         }
 
-        Project project = request.toEntity(userId);
+        Project project = request.toEntity(memberId);
         Project savedProject = projectRepository.save(project);
 
         // 프로젝트 생성시 채팅방 생성
@@ -49,11 +49,11 @@ public class ProjectService {
 
     /**
      * 사용자 ID로 프로젝트 리스트 조회
-     * @param userId 사용자 ID
+     * @param memberId 사용자 ID
      * @return List<ProjectResponse> 프로젝트 응답 DTO 리스트
      */
-    public List<ProjectResponse> getProjectListByOwnerId(Long userId) {
-        List<Project> projects = projectRepository.findByOwnerId(userId);
+    public List<ProjectResponse> getProjectListByOwnerId(Long memberId) {
+        List<Project> projects = projectRepository.findByOwnerId(memberId);
 
         return projects.stream()
                        .map(ProjectResponse::of)
@@ -62,17 +62,17 @@ public class ProjectService {
 
     /**
      * 프로젝트 수정
-     * @param userId 사용자 ID
+     * @param memberId 사용자 ID
      * @param projectId 프로젝트 ID
      * @param serviceRequest 프로젝트 수정 요청 DTO
      * @return ProjectResponse 수정된 프로젝트 응답 DTO
      */
     @Transactional
-    public ProjectResponse updateProject(Long userId, Long projectId, ProjectServiceRequest serviceRequest) {
+    public ProjectResponse updateProject(Long memberId, Long projectId, ProjectServiceRequest serviceRequest) {
         Project project = projectRepository.findById(projectId)
                                            .orElseThrow(() -> new IllegalArgumentException("프로젝트를 찾을 수 없습니다."));
 
-        if (!project.getOwnerId().equals(userId)) {
+        if (!project.getOwnerId().equals(memberId)) {
             throw new IllegalArgumentException("프로젝트의 소유자가 아닙니다.");
         }
 
