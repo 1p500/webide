@@ -1,7 +1,11 @@
 "use client";
 
 import Image from 'next/image';
+<<<<<<< Updated upstream
 import { SocialLoginGoogle, SocialLoginGuest, SocialLoginKakao } from '@/component/SocialLoginButtons';
+=======
+import { SocialLoginGithub, SocialLoginGoogle, SocialLoginGuest } from '@/components/SocialLoginButtons';
+>>>>>>> Stashed changes
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
@@ -11,13 +15,17 @@ export default function Home() {
     router.push('/signup'); // /signup 페이지로 이동
   };
 
+  const handleLoginClick = () =>{
+    router.push('/ide')
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
-      <div className="bg-white rounded-3xl shadow-lg flex max-w-4xl p-5">
+    <div className="w-full min-h-screen flex items-center justify-center bg-black">
+      <div className="bg-white rounded-3xl flex max-w-3xl mx-auto">
         {/* 왼쪽: 로그인 폼 */}
-        <div className="w-1/2 p-5">
+        <div className="w-1/2 p-5 space-y-4">
           <h2 className="text-5xl font-bold mb-5">Welcome</h2>
-          <form className="space-y-4">
+          <div className="space-y-4">
             <div>
               <input
                 type="text"
@@ -32,10 +40,23 @@ export default function Home() {
                 className="w-full p-3 rounded-md border border-gray-300"
               />
             </div>
-            <button className="w-full bg-black text-white py-3 rounded-md font-semibold">
+<<<<<<< Updated upstream
+            <button className="w-full bg-black text-white py-3 rounded-md font-semibold"
+                    onClick={handleLoginClick}
+            >
               Login
             </button>
-          </form>
+=======
+            
+            <div className="w-full text-center bg-black text-white py-3 rounded-md font-semibold"            >
+              <Link href="/ide"> Login  </ Link>
+            </div>
+            <div className="w-full text-center bg-black text-white py-3 rounded-md font-semibold"            >
+              <Link href="/signup"> 회원가입</ Link>
+            </div>
+            
+>>>>>>> Stashed changes
+          </div>
             <button className="w-full bg-gray-900 text-white py-3 rounded-md font-semibold"
                     onClick={handleSignupClick}
             >
@@ -46,20 +67,22 @@ export default function Home() {
           <p className="text-center mt-5 font-medium">Login with Others</p>
           <div className="flex flex-col mt-4 space-y-2">
             <SocialLoginGoogle />
-            <SocialLoginKakao />
+            <SocialLoginGithub />
             <SocialLoginGuest />
           </div>
         </div>
 
         {/* 오른쪽: 이미지 */}
         <div className="w-1/2 p-5 flex items-center justify-center">
-          <Image
-            src="/temp_main_image.png"
-            alt="Coding Illustration"
-            width={400}
-            height={400}
-            className="rounded-3xl"
-          />
+          
+            <Image
+              src="/temp_main_image.png"
+              alt="Coding Illustration"
+              width="100"
+              height="100"
+              className="rounded-3xl"
+            />
+          
         </div>
       </div>
     </div>
