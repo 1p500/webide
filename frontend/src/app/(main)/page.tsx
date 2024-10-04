@@ -1,7 +1,11 @@
 "use client";
 
 import Image from 'next/image';
+<<<<<<< Updated upstream
 import { SocialLoginGoogle, SocialLoginGuest, SocialLoginKakao } from '@/component/SocialLoginButtons';
+=======
+import { SocialLoginGithub, SocialLoginGoogle, SocialLoginGuest } from '@/components/SocialLoginButtons';
+>>>>>>> Stashed changes
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
@@ -36,11 +40,22 @@ export default function Home() {
                 className="w-full p-3 rounded-md border border-gray-300"
               />
             </div>
+<<<<<<< Updated upstream
             <button className="w-full bg-black text-white py-3 rounded-md font-semibold"
                     onClick={handleLoginClick}
             >
               Login
             </button>
+=======
+            
+            <div className="w-full text-center bg-black text-white py-3 rounded-md font-semibold"            >
+              <Link href="/ide"> Login  </ Link>
+            </div>
+            <div className="w-full text-center bg-black text-white py-3 rounded-md font-semibold"            >
+              <Link href="/signup"> 회원가입</ Link>
+            </div>
+            
+>>>>>>> Stashed changes
           </div>
             <button className="w-full bg-gray-900 text-white py-3 rounded-md font-semibold"
                     onClick={handleSignupClick}
@@ -52,7 +67,7 @@ export default function Home() {
           <p className="text-center mt-5 font-medium">Login with Others</p>
           <div className="flex flex-col mt-4 space-y-2">
             <SocialLoginGoogle />
-            <SocialLoginKakao />
+            <SocialLoginGithub />
             <SocialLoginGuest />
           </div>
         </div>
