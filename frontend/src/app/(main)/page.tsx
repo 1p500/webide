@@ -1,23 +1,12 @@
 "use client";
 
 import Image from 'next/image';
-<<<<<<< Updated upstream
-import { SocialLoginGoogle, SocialLoginGuest, SocialLoginKakao } from '@/component/SocialLoginButtons';
-=======
 import { SocialLoginGithub, SocialLoginGoogle, SocialLoginGuest } from '@/components/SocialLoginButtons';
->>>>>>> Stashed changes
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Home() {
   const router = useRouter();
-
-  const handleSignupClick = () => {
-    router.push('/signup'); // /signup 페이지로 이동
-  };
-
-  const handleLoginClick = () =>{
-    router.push('/ide')
-  }
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-black">
@@ -40,13 +29,6 @@ export default function Home() {
                 className="w-full p-3 rounded-md border border-gray-300"
               />
             </div>
-<<<<<<< Updated upstream
-            <button className="w-full bg-black text-white py-3 rounded-md font-semibold"
-                    onClick={handleLoginClick}
-            >
-              Login
-            </button>
-=======
             
             <div className="w-full text-center bg-black text-white py-3 rounded-md font-semibold"            >
               <Link href="/ide"> Login  </ Link>
@@ -55,14 +37,7 @@ export default function Home() {
               <Link href="/signup"> 회원가입</ Link>
             </div>
             
->>>>>>> Stashed changes
-          </div>
-            <button className="w-full bg-gray-900 text-white py-3 rounded-md font-semibold"
-                    onClick={handleSignupClick}
-            >
-              회원가입
-            </button>
-          
+          </div>          
 
           <p className="text-center mt-5 font-medium">Login with Others</p>
           <div className="flex flex-col mt-4 space-y-2">
