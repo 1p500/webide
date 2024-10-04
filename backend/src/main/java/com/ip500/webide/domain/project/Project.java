@@ -35,7 +35,8 @@ public class Project {
     private LocalDateTime modifiedDateTime;
 
     @Builder
-    private Project(String name, String description, Long ownerId) {
+    private Project(Long id, String name, String description, Long ownerId) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.ownerId = ownerId;
@@ -49,5 +50,10 @@ public class Project {
     @PreUpdate
     protected void onUpdate() {
         modifiedDateTime = LocalDateTime.now();
+    }
+
+    public void updateProjectInfo(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 }

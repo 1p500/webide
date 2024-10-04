@@ -1,4 +1,4 @@
-package com.ip500.webide.service.project.response;
+package com.ip500.webide.dto.project.response;
 
 import com.ip500.webide.domain.project.Project;
 import lombok.Builder;
