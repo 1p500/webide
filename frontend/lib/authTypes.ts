@@ -1,6 +1,8 @@
+// lib/authTypes.ts
 // 로그인 요청 데이터 타입
+
 export interface LoginRequest {
-  email: string;
+  loginid: string;
   password: string;
 }
 
@@ -10,14 +12,14 @@ export interface LoginResponse {
   refreshToken: string;
   user: {
     id: number;
-    email: string;
+    loginid: string;
     name: string;
   };
 }
 
 // 회원가입 요청 데이터 타입
 export interface SignupRequest {
-  email: string;
+  loginid: string;
   password: string;
   name: string;
 }
@@ -25,7 +27,7 @@ export interface SignupRequest {
 // 회원가입 응답 데이터 타입
 export interface SignupResponse {
   id: number;
-  email: string;
+  loginid: string;
   name: string;
   createdAt: string;
 }
@@ -35,7 +37,7 @@ export interface SocialLoginResponse {
   accessToken: string;
   user: {
     id: number;
-    email: string;
+    loginid: string;
     name: string;
   };
 }
