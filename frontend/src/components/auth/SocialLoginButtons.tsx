@@ -1,4 +1,7 @@
-import Image from 'next/image';
+
+"use client";
+
+import { useRouter } from 'next/navigation';
 
 // 구글 로그인 버튼 흰색 바탕
 export function SocialLoginGoogle() {
@@ -91,10 +94,20 @@ export function SocialLoginGithub2() {
     </button>
   );
 }
+
+
+
 // 게스트 로그인 버튼 흰색바탕
 export function SocialLoginGuest() {
+  const router = useRouter();
+
+  const handleGuestLogin = () =>{
+    router.push('/ide?guest=true')
+  }
   return (
-    <button className="flex items-center justify-center w-full hover:bg-gray-100 transition">
+    <button className="flex items-center justify-center w-full hover:bg-gray-100 transition"
+      onClick={handleGuestLogin}
+    >
       <svg className="flex items-center justify-center w-full h-full" viewBox="0 0 175 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="0.5" y="0.5" width="172" height="39" rx="4" fill="white"/>
         <rect x="0.5" y="0.5" width="172" height="39" rx="4" stroke="black"/>
@@ -119,8 +132,15 @@ export function SocialLoginGuest() {
 
 // 게스트 로그인 버튼 검은색 바탕
 export function SocialLoginGuest2() {
+  const router = useRouter();
+
+  const handleGuestLogin = () =>{
+    router.push('/ide?guest=true')
+  }
   return (
-    <button className="flex items-center justify-center w-full hover:bg-gray-100 transition">
+    <button className="flex items-center justify-center w-full hover:bg-gray-100 transition"
+      onClick={handleGuestLogin}
+    >
       <svg className="flex items-center justify-center w-full h-full" viewBox="0 0 175 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="0.5" y="0.5" width="172" height="39" rx="4" fill="black"/>
         <rect x="0.5" y="0.5" width="172" height="39" rx="4" stroke="black"/>

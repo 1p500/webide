@@ -10,32 +10,10 @@ import LoginButton from '@/components/loginForm';
 
 export default function Home() {
   const router = useRouter();
-  const { mutate: login, isError } = useLogin(); // useLogin 훅 사용
 
-  // 로그인 ID와 비밀번호 상태 관리
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  // 로그인 버튼 클릭 시 호출될 함수
-  const handleLogin = () => {
-    if (username && password) {
-      // useLogin 훅의 mutate 함수로 로그인 요청 보내기
-      login(
-        { loginid: username, password }, // loginid와 password를 전달
-        {
-          onSuccess: () => {
-            // 성공 시 /ide로 이동
-            router.push('/ide');
-          },
-          onError: (error) => {
-            console.error('로그인 실패:', error);
-          },
-        }
-      );
-    } else {
-      alert('아이디와 비밀번호를 입력해주세요.');
-    }
-  };
+  const handleGuestLogin = () =>{
+    router.push('/ide?guest=true')
+  }
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-black">
@@ -51,7 +29,7 @@ export default function Home() {
             </div>
           </div>
 
-          {isError && <p className="text-red-500">로그인에 실패했습니다. 다시 시도해주세요.</p>} {/* 에러 메시지 표시 */}
+
 
           <p className="text-center mt-5 font-medium">Login with Others</p>
           <div className="flex flex-col mt-4 space-y-2">
