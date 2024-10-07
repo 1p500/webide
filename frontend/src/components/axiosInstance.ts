@@ -1,4 +1,3 @@
-// src/axiosInstance.ts
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
@@ -13,15 +12,44 @@ const axiosInstance = axios.create({
 // Mock Adapter 설정
 const mock = new MockAdapter(axiosInstance);
 
-// 로그인 요청에 대해 Mock 데이터 설정
-mock.onPost('/login').reply(200, {
-  accessToken: 'mockAccessToken',
-  refreshToken: 'mockRefreshToken',
-  user: {
-    id: 1,
-    loginid: 'mockLoginId',
-    name: 'Mock User',
-  },
+// 사용자 데이터 저장소 (메모리 사용)
+const users: Array<{ loginid: string; password: string; name: string }> = [];
+
+// 회원가입 Mock API
+mock.onPost('/signup').reply((config) => {
+  const { loginid, password, name } = JSON.parse(config.data);
+  
+  // 중복된 사용자가 있는지 확인
+  const existingUser = users.find((user) => user.loginid === loginid);
+  if (existingUser) {
+    return [400, { message: 'User already exists' }];
+  }
+
+  // 새 사용자 추가
+  users.push({ loginid, password, name });
+  return [200, { message: 'User registered successfully' }];
+});
+
+// 로그인 Mock API
+mock.onPost('/login').reply((config) => {
+  const { loginid, password } = JSON.parse(config.data);
+
+  // 등록된 사용자 조회
+  const user = users.find((user) => user.loginid === loginid && user.password === password);
+
+  if (user) {
+    return [200, {
+      accessToken: 'mockAccessToken',
+      refreshToken: 'mockRefreshToken',
+      user: {
+        id: 1,
+        loginid: user.loginid,
+        name: user.name,
+      },
+    }];
+  } else {
+    return [401, { message: 'Invalid credentials' }];
+  }
 });
 
 export default axiosInstance;

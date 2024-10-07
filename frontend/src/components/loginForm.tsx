@@ -1,5 +1,8 @@
+"use client";
+
 import { useState } from 'react';
 import { useLogin } from './auth/useLogin';
+import { LockIcon, UserIcon } from './icons/icons';
 
 export default function LoginButton() {
   const [loginid, setLoginid] = useState('');  // 로그인 ID 상태 관리
@@ -12,22 +15,38 @@ export default function LoginButton() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={loginid}
-        onChange={(e) => setLoginid(e.target.value)}
-        placeholder="Login ID"
-        required
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
-      <button type="submit" disabled={isPending}>
+          
+    <form className="space-y-4 w-full text-center bg-white py-3 rounded-md font-semibold"
+          onSubmit={handleSubmit}>
+      <div className='relative'>
+        <input
+          className='w-full pl-10 border text-black placeholder-gray-200 font-mono border-black-800 rounded-md'
+          type="text"
+          value={loginid}
+          onChange={(e) => setLoginid(e.target.value)}
+          placeholder="Login ID"
+          required
+        />
+        <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+          <UserIcon />
+        </div>  
+      </div>
+      <div className='relative'>
+        <input
+          className='w-full pl-10 border text-black placeholder-gray-200 font-mono border-black-800 rounded-md'
+          type="text"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="PASSWORD"
+          required
+        />
+        <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+          <LockIcon />
+        </div>  
+      </div>
+      
+      <button className='w-full py-3 rounded-md font-semibold bg-black text-white'
+              type="submit" disabled={isPending}>
         {isPending ? 'Logging in...' : 'Login'}
       </button>
 
