@@ -49,7 +49,7 @@ public class FormUserDetails implements CustomUserDetails {
     @Override
     public String getUsername() {
         log.info("getUsername() - member.loginid()");
-        return member.getLoginId();
+        return member.getUserId();
     }
     @Override
     public boolean isAccountNonExpired() {

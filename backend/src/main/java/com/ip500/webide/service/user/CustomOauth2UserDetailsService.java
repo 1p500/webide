@@ -44,11 +44,11 @@ public class CustomOauth2UserDetailsService extends DefaultOAuth2UserService {
         String loginId = oAuth2UserInfo.getEmail();
         String email = oAuth2UserInfo.getEmail();
         String name = oAuth2UserInfo.getName();
-        Member findMember = memberRepository.findByLoginId(loginId);
+        Member findMember = memberRepository.findByUserId(loginId);
         Member member;
         if (findMember == null) {
             member = Member.builder()
-                    .loginId(loginId)
+                    .userId(loginId)
                     .userName(name)
                     .email(email)
                     .provider(provider)

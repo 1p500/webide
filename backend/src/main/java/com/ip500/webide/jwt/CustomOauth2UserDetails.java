@@ -4,7 +4,6 @@ import com.ip500.webide.domain.user.Member;
 import com.ip500.webide.domain.user.MemberRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
@@ -65,7 +64,7 @@ public class CustomOauth2UserDetails implements CustomUserDetails, OAuth2User {
     @Override
     public String getUsername() {
         log.info("getUsername() - member.loginId");
-        return member.getLoginId();
+        return member.getUserId();
     }
     @Override
     public boolean isAccountNonExpired() {

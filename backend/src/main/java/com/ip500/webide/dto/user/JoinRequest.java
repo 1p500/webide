@@ -22,7 +22,7 @@ public class JoinRequest {
 
     public Member toEntity(){
         return Member.builder()
-                .loginId(this.loginId)
+                .userId(this.loginId)
                 .password(this.password)
                 .userName(this.loginId.toString().split("@")[0])
                 .email(this.loginId)
