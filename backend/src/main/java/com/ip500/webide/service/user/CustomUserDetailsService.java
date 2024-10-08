@@ -1,7 +1,7 @@
 package com.ip500.webide.service.user;
 
 import com.ip500.webide.domain.user.Member;
-import com.ip500.webide.jwt.CustomUserDetails;
+import com.ip500.webide.jwt.FormUserDetails;
 import com.ip500.webide.repository.user.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         log.info("UserDetails loadUserByUsername() - username(loginId) : {}", loginId);
         Member member = memberRepository.findByLoginId(loginId);
         if(member != null) {
-            return new CustomUserDetails(member);
+            return new FormUserDetails(member);
         }
         return null;
     }

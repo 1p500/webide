@@ -2,7 +2,7 @@ package com.ip500.webide.config;
 
 import com.ip500.webide.domain.user.Member;
 import com.ip500.webide.domain.user.MemberRole;
-import com.ip500.webide.jwt.CustomUserDetails;
+import com.ip500.webide.jwt.FormUserDetails;
 import com.ip500.webide.jwt.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -72,9 +72,9 @@ public class JWTFilter extends OncePerRequestFilter {
         member.setPassword("임시 비밀번호");
         member.setRole(MemberRole.valueOf(role));
         // UserDetails에 회원 정보 객체 담기
-        CustomUserDetails customUserDetails = new CustomUserDetails(member);
+        FormUserDetails formUserDetails = new FormUserDetails(member);
         // 스프링 시큐리티 인증 토큰 생성
-        Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+        Authentication authToken = new UsernamePasswordAuthenticationToken(formUserDetails, null, formUserDetails.getAuthorities());
         // 세션에 사용자 등록 => 일시적으로 user 세션 생성
         SecurityContextHolder.getContext().setAuthentication(authToken);
         // 다음 필터로 request, response 넘겨줌

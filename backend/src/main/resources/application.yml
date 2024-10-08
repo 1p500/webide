@@ -16,6 +16,20 @@ spring:
       ddl-auto: none
   jwt:
     secret: ${JWT_SECRET}
+  security:
+    oauth2:
+      client:
+        registration:
+          # https://console.cloud.google.com/
+          google:
+            client-id: ${OAUTH_GOOGLE_CLIENT_ID}
+            client-secret: ${OAUTH_GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+          github:
+            clientId: ${OAUTH_GITHUB_CLIENT_ID}
+            clientSecret: ${OAUTH_GITHUB_CLIENT_SECRET}
 ---
 spring:
   output:

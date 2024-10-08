@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +24,11 @@ public class JoinRequest {
         return Member.builder()
                 .loginId(this.loginId)
                 .password(this.password)
+                .userName(this.loginId.toString().split("@")[0])
+                .email(this.loginId)
                 .role(MemberRole.USER)
+                .createdUserDate(new Date())
+                .provider("form")
                 .build();
     }
 }
