@@ -1,6 +1,6 @@
 package com.ip500.webide.config;
 
-import com.ip500.webide.jwt.CustomUserDetails;
+import com.ip500.webide.jwt.FormUserDetails;
 import com.ip500.webide.jwt.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,14 +36,14 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
         log.info("void successfulAuthentication()");
         // username 추출
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        FormUserDetails formUserDetails = (FormUserDetails) authentication.getPrincipal();
         // role 추출
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
-        String username = customUserDetails.getUsername();
-        Long id = customUserDetails.getPKId();
+        String username = formUserDetails.getUsername();
+        Long id = formUserDetails.getPKId();
         // JWTUtil에 token 생성 요청
         String accessToken = jwtUtil.createAccessToken(id, username, role);
         String refreshToken = jwtUtil.createRefreshToken();
