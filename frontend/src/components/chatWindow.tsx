@@ -42,23 +42,33 @@ export default function Chat() {
   };
 
   return (
-    <div className="chat-container">
-      <div className="chat-messages">
+    <div className="h-screen flex flex-col">
+      {/* 채팅 메시지 영역 */}
+      <div className="flex-grow p-4 bg-gray-100 overflow-y-auto">
         {messages.map((msg, index) => (
-          <div key={index} className="chat-message">
+          <div key={index} className="chat-message p-2 bg-white rounded-lg shadow mb-2">
             {msg}
           </div>
         ))}
       </div>
-      <div className="chat-input">
+
+      {/* 채팅 입력 영역 */}
+      <div className="w-full p-4 bg-gray-800 flex items-center">
         <input
           type="text"
+          className="w-3/4 flex-grow p-2 rounded-lg text-black"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           placeholder="Type your message..."
         />
-        <button onClick={sendMessage}>Send</button>
+        <button 
+          className="w-1/4 ml-4 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-600"
+          onClick={sendMessage}
+        >
+          Send
+        </button>
       </div>
     </div>
+
   );
 }

@@ -32,29 +32,34 @@ export default function CodeEditor() {
   };
 
   return (
-    <div>
-      <h2>Code Editor</h2>
-
-      {/* 언어 선택 버튼 */}
-      <div>
-        <button onClick={() => setLanguage("javascript")} className="m-2 p-2 bg-blue-500 text-white">
-          JavaScript
-        </button>
-        <button onClick={() => setLanguage("python")} className="m-2 p-2 bg-green-500 text-white">
-          Python
-        </button>
-        <button onClick={() => setLanguage("html")} className="m-2 p-2 bg-red-500 text-white">
-          HTML
-        </button>
+    <div className='h-screen flex flex-col'>
+      {/* 상단 영역: 언어 선택 및 제목 */}
+      <div className='flex items-center justify-between p-2 bg-gray-800 text-white'>
+        <h2>Code Editor</h2>
+        <div className='flex space-x-4'>
+          <button onClick={() => setLanguage("javascript")} className="px-4 py-2 bg-blue-500 text-white">
+            JavaScript
+          </button>
+          <button onClick={() => setLanguage("python")} className="px-4 py-2 bg-green-500 text-white">
+            Python
+          </button>
+          <button onClick={() => setLanguage("html")} className="px-4 py-2 bg-red-500 text-white">
+            HTML
+          </button>
       </div>
-
-      <ReactCodeMirror
-        value={code}
-        height="200px"
-        theme={oneDark}
-        extensions={[getLanguageExtension()]} // 언어에 따라 확장을 동적으로 변경
-        onChange={(value) => onChange(value)}
-      />
     </div>
+
+  {/* 코드 에디터 영역 */}
+  <div className='flex-grow'>
+    <ReactCodeMirror
+      value={code}
+      height='100%'    
+      theme={oneDark}
+      extensions={[getLanguageExtension()]}  // 동적 언어 확장
+      onChange={(value) => onChange(value)}
+    />
+  </div>
+</div>
+
   );
 }
