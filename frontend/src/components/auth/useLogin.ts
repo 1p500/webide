@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import axiosInstance from '../axiosInstance';
 import { LoginRequest, LoginResponse } from '../../../lib/authTypes';
 import { useRouter } from 'next/navigation';
-import { useProjects } from '../useProjects';
+// import { useProjects } from '../useProjects';
 
 
 export const useLogin = () => {
@@ -27,7 +27,7 @@ export const useLogin = () => {
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken);
       
-      useProjects(data.accessToken);
+      // useProjects(data.accessToken);
       router.push('/ide/[projectPage]');
     },
     onError: (error) => {

@@ -7,6 +7,7 @@ import { Tree } from '@/components/folderTree';
 import Chat from '@/components/chatWindow';
 // import { GetProjectsRootResponse, Folder } from '../../../../lib/projectTypes';
 import { FolderAddTransparent, FileAddTransparent } from '@/components/icons/icons';
+import { useProjects } from '@/components/useProjects';
 
 
 export default function IdePage() {
@@ -23,7 +24,7 @@ export default function IdePage() {
       const storeAccessToken = localStorage.getItem('accessToken') || "";
       setToken(storeAccessToken);
     }, [])
-
+    useProjects(token);
   // const { data } = useQuery({
   //   queryKey: [],
   //   queryFn: getProjectsRoot

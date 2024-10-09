@@ -80,11 +80,11 @@ export const Tree = ({ projectId }: { projectId: number }) => {
   return (
     <div>
       {data.folders.map((folder) => (
-        <Folder projectId={projectId} id={folder.id} name={folder.name} />
+        <Folder key={folder.id} projectId={projectId} id={folder.id} name={folder.name} />
       ))}
       {data.files.map((file) => (
         // <File id={file.id} name={file.name} contents={file.content} />
-        <File name={file.name} />
+        <File key={file.name} name={file.name} />
       ))}
     </div>
   );
