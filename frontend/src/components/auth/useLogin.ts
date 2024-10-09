@@ -16,8 +16,8 @@ export const useLogin = () => {
   // useMutation을 정의할 때 제네릭 타입 설정
   const mutation = useMutation<LoginResponse, Error, LoginRequest>({
     mutationFn: async ({ loginid, password }: LoginRequest): Promise<LoginResponse> => {
-      // API 요청 (Mock 데이터가 반환됨)
-      const response = await axiosInstance.post<LoginResponse>('/API_URL', { loginid, password });
+      
+      const response = await axiosInstance.post<LoginResponse>(API_URL, { loginid, password });
       return response.data;
     },
     onSuccess: (data: LoginResponse) => {

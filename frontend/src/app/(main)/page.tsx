@@ -3,8 +3,6 @@
 import Image from 'next/image';
 import { SocialLoginGithub, SocialLoginGoogle, SocialLoginGuest } from '@/components/auth/SocialLoginButtons';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useLogin } from '@/components/auth/useLogin';
 import Link from 'next/link';
 import LoginButton from '@/components/loginForm';
 

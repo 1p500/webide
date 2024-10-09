@@ -5,17 +5,17 @@ import { useQuery } from '@tanstack/react-query';
 import { GetProjectsProjectIdResponse } from '../../lib/projectTypes';
 import axios from 'axios';
 
+
 type FolderProps = {
-  type: "folder"
+  projectId: number
   name: string
   id: number
 }
 
 type FileProps = {
-  type: "file"
-  id: number
+  // id: number
   name: string
-  contents: string
+  // contents: string
 }
 
 const fetchProjectsFolder = async (projectId:number):Promise<GetProjectsProjectIdResponse> => {
@@ -62,6 +62,15 @@ const fetchProjectsSubFoldersAndFiles = async(projectId: number, folderId: numbe
   }
 }
 
+
+export const useProjectsSubFolder = (projectId: number, id:number, isOpen: boolean) => {
+  return useQuery<GetProjectsProjectIdResponse>({
+    queryKey: ['subFolder', projectId, id],
+    queryFn: () => fetchProjectsSubFoldersAndFiles(projectId, id),
+    enabled: isOpen,
+  });
+};
+
 export const Tree = ({ projectId }: { projectId: number }) => {
   const { data, isLoading, isError } = useProjectsFolder(projectId);
 
@@ -71,36 +80,52 @@ export const Tree = ({ projectId }: { projectId: number }) => {
   return (
     <div>
       {data.folders.map((folder) => (
-        <Folder type='folder' id={folder.id} name={folder.name} />
+        <Folder projectId={projectId} id={folder.id} name={folder.name} />
       ))}
       {data.files.map((file) => (
-        <File type='file' id={file.id} name={file.name} contents={file.content} />
+        // <File id={file.id} name={file.name} contents={file.content} />
+        <File name={file.name} />
       ))}
     </div>
   );
 }
 
-const Folder = ({ type, id, name }: FolderProps) => {
+const Folder = ({ projectId, id, name }: FolderProps) => {
   const [isOpen, setIsOpen] = useState(false); // 폴더 열림/닫힘 상태 관리
-
+  
   const toggleFolder = () => setIsOpen(!isOpen); // 폴더 열기/닫기 토글
 
+  const { data, isLoading } = useProjectsSubFolder(projectId, id, isOpen)
+  
   return (
     <div className='ml-2'>
-      <div onClick={toggleFolder} style={{ cursor: 'pointer', fontWeight: 'bold' }}>
-        {isOpen ? '📂' : '📁'} {name}
-      </div>
-      {isOpen && (
-        <div className='ml-2'>
-          {/* 하위 폴더와 파일을 트리 구조로 표시 (재귀적) */}
-          <Tree projectId={id} />
-        </div>
-      )}
+    <div onClick={toggleFolder} style={{ cursor: 'pointer', fontWeight: 'bold' }}>
+      {isOpen ? '📂' : '📁'} {name}
     </div>
+    {isOpen && (
+      <div className='ml-4'>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            {data?.folders.map((subfolder) => (
+              <Folder key={subfolder.id} projectId={projectId} id={subfolder.id} name={subfolder.name} />
+            ))}
+            {data?.files.map((file) => (
+              // <File key={file.id} id={file.id} name={file.name} contents={file.content} />
+              <File key={file.name} name={file.name}  />
+            ))}
+          </>
+        )}
+      </div>
+    )}
+  </div>
   );
 };
 
-const File = ({type, id, name, contents}: FileProps) => {
+const File = ({name}: FileProps) => {
+  // const [isOpen, setIsOpen] = useState(false); // 파일 열림/닫힘 상태 관리
+  // const toggleFolder = () => setIsOpen(!isOpen); // 폴더 열기/닫기 토글
   return (
     <div className='ml-2'>
       📄 {name}
