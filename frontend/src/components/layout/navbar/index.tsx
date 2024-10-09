@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export function Navbar() {
   return (
-    <nav className="relative flex items-center justify-between p-4 lg:px-6 bg-blue-200">
+    <nav className="relative max-h-5 flex items-center justify-between p-4 lg:px-6 bg-white">
       <div className="flex w-full items-center">
         <div className="flex w-full md:w-1/3">
           <Link
