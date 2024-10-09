@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 
-import {useQueryClient} from "@tanstack/react-query"
 import { useProjects } from './useProjects';
 import { CreateReadUpdateProject } from '../../lib/projectTypes';
 import ProjectAddModal from './createProject';

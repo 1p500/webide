@@ -7,7 +7,7 @@ import { LockIcon, UserIcon } from './icons/icons';
 export default function LoginButton() {
   const [loginid, setLoginid] = useState('');  // 로그인 ID 상태 관리
   const [password, setPassword] = useState(''); // 비밀번호 상태 관리
-  const { mutate: login, isPending, isError, data } = useLogin();
+  const { mutate: login, isPending, isError } = useLogin();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); // 폼 제출 기본 동작 방지

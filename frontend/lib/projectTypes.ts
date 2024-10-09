@@ -99,42 +99,42 @@ export interface PostProjectsFilesResponse{
 
 
 
-// 공통 인터페이스 정의
-interface BaseFolder {
-  folderName: string;
-  parentFolderId?: number; // 선택적으로 사용 가능하도록 설정
-}
+// // 공통 인터페이스 정의
+// interface BaseFolder {
+//   folderName: string;
+//   parentFolderId?: number; // 선택적으로 사용 가능하도록 설정
+// }
 
-interface BaseFile {
-  fileName: string;
-  content: string;
-}
+// interface BaseFile {
+//   fileName: string;
+//   content: string;
+// }
 
-interface ProjectBase {
-  name: string;
-  description: string;
-}
+// interface ProjectBase {
+//   name: string;
+//   description: string;
+// }
 
-// 요청 인터페이스
+// // 요청 인터페이스
 
-// 폴더 생성
-export interface CreateProjectFolderRequest extends BaseFolder {}
+// // 폴더 생성
+// export interface CreateProjectFolderRequest extends BaseFolder {}
 
-// 폴더 내 폴더 생성
-export interface CreateSubfolderRequest extends BaseFolder {
-  parentFolderId: number; 
-}
+// // 폴더 내 폴더 생성
+// export interface CreateSubfolderRequest extends BaseFolder {
+//   parentFolderId: number; 
+// }
 
-// 폴더 수정
-export interface UpdateFolderRequest extends BaseFolder {
-  parentFolderId: number;  
-}
+// // 폴더 수정
+// export interface UpdateFolderRequest extends BaseFolder {
+//   parentFolderId: number;  
+// }
 
-export interface CreateFileRequest extends BaseFile {}
+// export interface CreateFileRequest extends BaseFile {}
 
-export interface UpdateFileRequest extends BaseFile {}
+// export interface UpdateFileRequest extends BaseFile {}
 
-export interface CreateProjectRequest extends ProjectBase {}
+// export interface CreateProjectRequest extends ProjectBase {}
 
 
 
@@ -149,11 +149,11 @@ export interface CreateFolder{
 }
 
 
-export interface ReadFolder{
-  folders:BaseFolder[];
-  files:BaseFile[];
-  subFolders:BaseFolder[];
-}
+// export interface ReadFolder{
+//   folders:BaseFolder[];
+//   files:BaseFile[];
+//   subFolders:BaseFolder[];
+// }
 
 
 export interface UpdateFolder{
