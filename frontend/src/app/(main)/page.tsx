@@ -2,12 +2,12 @@
 
 import Image from 'next/image';
 import { SocialLoginGithub, SocialLoginGoogle, SocialLoginGuest } from '@/components/auth/SocialLoginButtons';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import LoginButton from '@/components/loginForm';
 
 export default function Home() {
-  const router = useRouter();
+  // const router = useRouter();
 
 
   return (
