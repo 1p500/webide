@@ -7,10 +7,15 @@ import { useRouter } from 'next/navigation';
 
 export const useSignup = () => {
   const router = useRouter();
+  // 실제사용
+  const API_URL = '/api/auth/signup'
+
+  //테스트용
+  // const API_URL = '/signup';
 
   return useMutation<SignupResponse, Error, SignupRequest>({
     mutationFn: async (signupData: SignupRequest) => {
-      const response = await axiosInstance.post<SignupResponse>('/signup', signupData);
+      const response = await axiosInstance.post<SignupResponse>(API_URL, signupData);
       return response.data;
     },
     onSuccess:(data)=>{

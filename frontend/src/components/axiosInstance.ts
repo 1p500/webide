@@ -1,19 +1,23 @@
 import axios from 'axios';
+
+//테스트용
 import MockAdapter from 'axios-mock-adapter';
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
   baseURL: 'https://api.example.com', // 실제로는 사용되지 않음
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json', 
   },
 });
+export default axiosInstance;
 
 // Mock Adapter 설정
 const mock = new MockAdapter(axiosInstance);
 
+
 // 사용자 데이터 저장소 (메모리 사용)
-const users: Array<{ loginid: string; password: string; name: string }> = [];
+const users: Array<{ loginid: string; password: string; name: string; projects: Array<any> }> = [];
 
 // 회원가입 Mock API
 mock.onPost('/signup').reply((config) => {
@@ -26,9 +30,12 @@ mock.onPost('/signup').reply((config) => {
   }
 
   // 새 사용자 추가
-  users.push({ loginid, password, name });
+  users.push({ loginid, password, name, projects: [] });
   return [200, { message: 'User registered successfully' }];
 });
+
+
+
 
 // 로그인 Mock API
 mock.onPost('/login').reply((config) => {
@@ -45,6 +52,7 @@ mock.onPost('/login').reply((config) => {
         id: 1,
         loginid: user.loginid,
         name: user.name,
+        projects: user.projects,
       },
     }];
   } else {
@@ -52,4 +60,18 @@ mock.onPost('/login').reply((config) => {
   }
 });
 
-export default axiosInstance;
+mock.onGet('/projects').reply((config) => {
+  
+  const userId = config.params.userId;
+  
+  const user = users.find((user) => user.loginid === userId);
+
+  if (user) {
+    return [200, user.projects];  // 해당 사용자의 프로젝트 목록 반환
+  } else {
+    return [401, { message: 'Unauthorized' }];
+  }
+});
+
+
+

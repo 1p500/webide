@@ -66,3 +66,87 @@ export const LockIcon = () => {
     </svg>
   );
 };
+
+export const FileAddTransparent = ({ className }: { className?: string }) => {
+  return(
+  <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+  className={className}>
+    <g clipPath="url(#clip0_85_1174)">
+      <path d="M2.5 5V1.5C2.5 1.23478 2.60536 0.98043 2.79289 0.792893C2.98043 0.605357 3.23478 0.5 3.5 0.5H10L13.5 4V12.5C13.5 12.7652 13.3946 13.0196 13.2071 13.2071C13.0196 13.3946 12.7652 13.5 12.5 13.5H7.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M3.5 7.5V13.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M0.5 10.5H6.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+    </g>
+    {/* 파일 겉 사각형 */}
+    {/* <rect x="0.5" y="0.5" width="13" height="13" stroke=""/> */}
+    <rect x="0.5" y="0.5" width="13" height="13" stroke="currentColor" strokeOpacity="0.2"/>
+    <defs>
+      <clipPath id="clip0_85_1174">
+        <rect width="14" height="14" fill="currentColor"/>
+      </clipPath>
+    </defs>
+  </svg>
+  )
+}
+
+export const FileAdd = ({ className }: { className?: string }) => {
+  return(
+  <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <g clipPath="url(#clip0_85_1181)">
+      <rect width="15" height="15" fill="#FFFEFE"/>
+      <path d="M3 5.5V2C3 1.73478 3.10536 1.48043 3.29289 1.29289C3.48043 1.10536 3.73478 1 4 1H10.5L14 4.5V13C14 13.2652 13.8946 13.5196 13.7071 13.7071C13.5196 13.8946 13.2652 14 13 14H8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M4 8V14" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M1 11H7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+    </g>
+    <rect x="0.5" y="0.5" width="14" height="14" stroke="currentColor"/>
+    <rect x="0.5" y="0.5" width="14" height="14" stroke="currentColor" strokeOpacity="0.2"/>
+    <defs>
+      <clipPath id="clip0_85_1181">
+        <rect width="15" height="15" fill="currentColor"/>
+      </clipPath>
+    </defs>
+  </svg>
+  )
+}
+
+export const FolderAdd = ({ className }: { className?: string }) => {
+  return(
+  <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+  className={className}>
+    <g clipPath="url(#clip0_85_1194)">
+      <rect width="14" height="14" fill="currentColor"/>
+      <path d="M7 5.5V10.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M4.5 8H9.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M0.5 12.2499V1.74994C0.5 1.48472 0.605357 1.23037 0.792893 1.04283C0.98043 0.855293 1.23478 0.749936 1.5 0.749936H5.19C5.41843 0.743281 5.64226 0.815069 5.82421 0.95335C6.00615 1.09163 6.13525 1.28806 6.19 1.50994L6.5 2.74994H12.5C12.7652 2.74994 13.0196 2.85529 13.2071 3.04283C13.3946 3.23037 13.5 3.48472 13.5 3.74994V12.2499C13.5 12.5152 13.3946 12.7695 13.2071 12.957C13.0196 13.1446 12.7652 13.2499 12.5 13.2499H1.5C1.23478 13.2499 0.98043 13.1446 0.792893 12.957C0.605357 12.7695 0.5 12.5152 0.5 12.2499Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+    </g>
+    <rect x="0.5" y="0.5" width="13" height="13" stroke="currentColor"/>
+    <rect x="0.5" y="0.5" width="13" height="13" stroke="currentColor" strokeOpacity="0.2"/>
+    <defs>
+      <clipPath id="clip0_85_1194">
+        <rect width="14" height="14" fill="currentColor"/>
+      </clipPath>
+    </defs>
+  </svg>
+  )
+
+}
+
+export const FolderAddTransparent = ({ className }: { className?: string }) => {
+  return (
+  <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+  className={className}>
+    <g clipPath="url(#clip0_85_1187)">
+      <path d="M7 5.5V10.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M4.5 8H9.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M0.5 12.2499V1.74994C0.5 1.48472 0.605357 1.23037 0.792893 1.04283C0.98043 0.855293 1.23478 0.749936 1.5 0.749936H5.19C5.41843 0.743281 5.64226 0.815069 5.82421 0.95335C6.00615 1.09163 6.13525 1.28806 6.19 1.50994L6.5 2.74994H12.5C12.7652 2.74994 13.0196 2.85529 13.2071 3.04283C13.3946 3.23037 13.5 3.48472 13.5 3.74994V12.2499C13.5 12.5152 13.3946 12.7695 13.2071 12.957C13.0196 13.1446 12.7652 13.2499 12.5 13.2499H1.5C1.23478 13.2499 0.98043 13.1446 0.792893 12.957C0.605357 12.7695 0.5 12.5152 0.5 12.2499Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+    </g>
+    {/* 폴더 겉 사각형 */}
+    {/* <rect x="0.5" y="0.5" width="13" height="13" stroke=""/>  */} 
+    <rect x="0.5" y="0.5" width="13" height="13" stroke="currentColor" strokeOpacity="0.2"/>
+    <defs>
+      <clipPath id="clip0_85_1187">
+        <rect width="14" height="14" fill="currentColor"/>
+      </clipPath>
+    </defs>
+  </svg>
+  )
+}

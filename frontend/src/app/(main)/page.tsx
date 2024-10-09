@@ -11,9 +11,6 @@ import LoginButton from '@/components/loginForm';
 export default function Home() {
   const router = useRouter();
 
-  const handleGuestLogin = () =>{
-    router.push('/ide?guest=true')
-  }
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-black">
@@ -44,8 +41,8 @@ export default function Home() {
           <Image
             src="/temp_main_image.png"
             alt="Coding Illustration"
-            width="100"
-            height="100"
+            width="300"
+            height="500"
             className="rounded-3xl"
           />
         </div>

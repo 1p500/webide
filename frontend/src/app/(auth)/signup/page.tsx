@@ -16,13 +16,34 @@ export default function SignupPage() {
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const emailCheck = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+
+    if (!emailCheck.test(email)){
+      alert('유효한 이메일 주소를 입력해주세요.');
+      return;
+    }
+
+    // 비밀번호 길이 검사 (최소 6자)
+    if  (password.length < 6) {
+      alert('비밀번호는 최소 6자리 이상이어야 합니다.');
+      return;
+    }
+
     if(password !== confirmPassword){
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
+    // 이름이 비어있는지 검사
+    if (name.trim() === ''){
+      alert('이름을 입력해주세요.');
+      return;
+    }
+
     signupMutation.mutate({
       loginid: email,
       password,
+      passwordCheck: confirmPassword,
       name,
     });
   }

@@ -34,7 +34,7 @@ export default function LoginButton() {
       <div className='relative'>
         <input
           className='w-full pl-10 border text-black placeholder-gray-200 font-mono border-black-800 rounded-md'
-          type="text"
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="PASSWORD"
