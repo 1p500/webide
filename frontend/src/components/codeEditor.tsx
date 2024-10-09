@@ -53,7 +53,7 @@ export default function CodeEditor() {
   <div className='flex-grow'>
     <ReactCodeMirror
       value={code}
-      height='100%'    
+      minHeight='740px'
       theme={oneDark}
       extensions={[getLanguageExtension()]}  // 동적 언어 확장
       onChange={(value) => onChange(value)}
