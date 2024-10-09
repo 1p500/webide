@@ -3,6 +3,7 @@ package com.ip500.webide.config;
 import com.ip500.webide.jwt.CustomUserDetails;
 import com.ip500.webide.jwt.JWTUtil;
 import com.ip500.webide.repository.user.MemberRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -23,7 +25,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityConfig {
-    public String domain = WebConfig.domain;
     private final AuthenticationConfiguration configuration;
     private final JWTUtil jwtUtil;
     private final MemberRepository memberRepository;
@@ -45,35 +46,41 @@ public class SecurityConfig {
                 .anyRequest().permitAll());
         // 폼 로그인 방식 설정
         http.formLogin((auth) -> auth
-                .loginPage(domain + "/login")
+                .loginPage(WebConfig.login)
                 .loginProcessingUrl("/api/auth/login/form")
                 .usernameParameter("loginId")
                 .passwordParameter("password")
-                .defaultSuccessUrl(domain)
+                .defaultSuccessUrl(WebConfig.home)
                 .successHandler((request, response, authentication)->{
-                    CustomUserDetails principal = (CustomUserDetails)authentication.getPrincipal();
-                    log.info("formLogin successHandler auth : {}", principal);
-                    // AT RT 생성
-                    Long id = principal.getPKId();
-                    String loginId = principal.getUsername();
-                    String memberRole = principal.getRole().name();
-                    String accessToken = jwtUtil.createAccessToken(id, loginId, memberRole);
-                    String refreshToken = jwtUtil.createRefreshToken();
-
-                    response.addHeader("Authorization", "Bearer " + accessToken);
-                    response.addHeader("RefreshToken", "Bearer " + refreshToken);
-//                    response.sendRedirect(domain + "/home");
+                    log.info("formLogin successHandler auth");
+                    setJWT(response, authentication);
+                    response.sendRedirect(WebConfig.home);
                 })
                 .failureUrl("/oauth2-login/login")
                 .failureHandler((request, response, authentication)->{
                     log.info("formLogin failureHandler\nrequest : {}\nresponse : {}\nauthentication : {}\n\n", request, response, authentication);
-                    response.sendRedirect(domain + "/login");
+                    response.sendRedirect(WebConfig.login);
+                })
+                .permitAll());
+        // OAuth 2.0 로그인 방식 설정
+        http.oauth2Login((auth) -> auth
+                .loginPage(WebConfig.login)
+                .defaultSuccessUrl(WebConfig.home)
+                .successHandler((request, response, authentication)->{
+                    log.info("oauth2Login successHandler auth");
+                    setJWT(response, authentication);
+                    response.sendRedirect(WebConfig.home);
+                })
+                .failureUrl(WebConfig.login)
+                .failureHandler((request, response, authentication)->{
+                    log.info("oauth2Login failureHandler\nrequest : {}\nresponse : {}\nexception : {}\n\n", request, response, authentication);
+                    response.sendRedirect(WebConfig.login);
                 })
                 .permitAll());
         // 로그아웃 URL 설정
         http.logout((auth) -> auth
 //                .logoutUrl("[api logout uri]")
-                .logoutSuccessUrl(domain)); // 로그아웃 성공 시 redirect
+                .logoutSuccessUrl(WebConfig.home)); // 로그아웃 성공 시 redirect
         // csrf : 사이트 위변조 방지 설정 (스프링 시큐리티에는 자동으로 설정 되어 있음)
         // csrf기능 켜져있으면 post 요청을 보낼때 csrf 토큰도 보내줘야 로그인 진행됨 !
         // 개발단계에서만 csrf 잠시 꺼두기
@@ -88,6 +95,20 @@ public class SecurityConfig {
         http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
         return http.build();
     }
+
+    private void setJWT(HttpServletResponse response, Authentication authentication) {
+        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+        // AT RT 생성
+        Long id = principal.getPKId();
+        String loginId = principal.getUsername();
+        String memberRole = principal.getRole().name();
+        String accessToken = jwtUtil.createAccessToken(id, loginId, memberRole);
+        String refreshToken = jwtUtil.createRefreshToken();
+
+        response.addHeader("Authorization", "Bearer " + accessToken);
+        response.addHeader("RefreshToken", "Bearer " + refreshToken);
+    }
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){ return new BCryptPasswordEncoder(); }
 }

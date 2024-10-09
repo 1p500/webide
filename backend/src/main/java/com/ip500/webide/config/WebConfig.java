@@ -7,7 +7,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     public static String domain = "http://localhost:3000"; // 로컬용
-    //    public static String domain = "[도메인]"; // 배포용 (https:// 제외)
+    //    public static String domain = "[도메인]"; // 배포용
+
+    public static String home = domain;
+    public static String login = domain + "/login";
+    public static String signup = domain + "/signup";
+    public static String google_oauth2 = "/oauth2/authorization/google";
+    public static String github_oauth2 = "/oauth2/authorization/github";
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

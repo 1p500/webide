@@ -1,19 +1,20 @@
 package com.ip500.webide.controller.folderfile;
 
 import com.ip500.webide.domain.folderfile.File;
-import com.ip500.webide.domain.folderfile.FileRepository;
 import com.ip500.webide.domain.folderfile.Folder;
-import com.ip500.webide.domain.project.Project;
+import com.ip500.webide.dto.folderfile.*;
 import com.ip500.webide.service.folderfile.FolderFileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("projects")
+@RequestMapping("/api/projects")
 public class FolderFileController {
 
     private final FolderFileService folderFileService;
@@ -26,30 +27,38 @@ public class FolderFileController {
     @PostMapping("/{projectId}/folders")
     public ResponseEntity<Folder> createFolder(
             @PathVariable Long projectId,
-            @RequestBody Map<String, Object> requestBody // JSON 데이터를 Map으로 받음
+            @RequestBody FolderCreateRequest folderCreateRequest
     ) {
-        //JSON에서 folderName과 parentFolderId 추출
-        String folderName = (String) requestBody.get("folderName");
-        Long parentFolderId = requestBody.get("parentFolderId") != null ?
-                Long.valueOf(requestBody.get("parentFolderId").toString()) : null;
 
-        Folder folder = folderFileService.createFolder(folderName, parentFolderId, projectId);
+        FolderServiceRequest serviceRequest = folderCreateRequest.toServiceRequest();
+        Folder folder = folderFileService.createFolder(serviceRequest.getFolderName(), serviceRequest.getParentFolderId(), projectId);
 
-        return ResponseEntity.ok(folder);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{folderId}")
+                .buildAndExpand(folder.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(folder);
     }
 
-    //////////////////////////프로젝트 내 폴더 생성
+    //////////////////////////프로젝트 내 파일 생성
     @PostMapping("/{projectId}/files")
     public ResponseEntity<File> createFileInProject(
             @PathVariable Long projectId,
-            @RequestBody Map<String, String> fileData
+            @RequestBody FileCreateRequest fileCreateRequest
     ) {
-        String fileName = fileData.get("fileName");
-        String content = fileData.get("content");
 
-        File file = folderFileService.createFileInProject(fileName, content, projectId);
+        FileServiceRequest serviceRequest = fileCreateRequest.toServiceRequest();
+        File file = folderFileService.createFileInProject(serviceRequest.getFileName(), serviceRequest.getContent(), projectId);
 
-        return ResponseEntity.ok(file);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{folderId}")
+                .buildAndExpand(file.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(file);
     }
 
     /////////////////////////폴더 내 파일 생성
@@ -57,15 +66,19 @@ public class FolderFileController {
     public ResponseEntity<File> createFile(
             @PathVariable Long projectId,
             @PathVariable Long folderId,
-            @RequestBody Map<String, String> fileData //JSON 데이터를 Map으로 받음
+            @RequestBody FileCreateRequest fileCreateRequest
     ) {
-        //JSON에서 파일명과 내용을 추출
-        String fileName = fileData.get("fileName");
-        String content = fileData.get("content");
 
-        File file = folderFileService.createFile(fileName, content, folderId, projectId);
+        FileServiceRequest serviceRequest = fileCreateRequest.toServiceRequest();
+        File file = folderFileService.createFile(serviceRequest.getFileName(), serviceRequest.getContent(), folderId, projectId);
 
-        return ResponseEntity.ok(file);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{fileId}")
+                .buildAndExpand(file.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(file);
     }
 
 
@@ -91,7 +104,6 @@ public class FolderFileController {
     /////////////////////////폴더 내 폴더,파일 조회
     @GetMapping("/{projectId}/folders/{folderId}")
     public ResponseEntity<Map<String, Object>> getFolderFoldersAndFiles(
-            @PathVariable Long projectId,
             @PathVariable Long folderId
     ) {
         //폴더 내 하위폴더 조회
@@ -111,33 +123,47 @@ public class FolderFileController {
 
     /////////////////////////폴더 수정
     @PatchMapping("/{projectId}/folders/{folderId}")
-    public ResponseEntity<Folder> patchFolder(
+    public ResponseEntity<Folder> updateFolder(
             @PathVariable Long projectId,
             @PathVariable Long folderId,
-            @RequestBody Map<String, Object> requestBody
+            @RequestBody FolderUpdateRequest folderUpdateRequest
     ) {
-        String folderName = requestBody.containsKey("folderName") ? (String) requestBody.get("folderName") : null;
-        Long parentFolderId = requestBody.containsKey("parentFolderId") && requestBody.get("parentFolderId") != null ?  //널포인터에러방지
-                Long.valueOf(requestBody.get("parentFolderId").toString()) : null;
 
-        Folder updateFolder = folderFileService.patchFolder(folderId, folderName, parentFolderId, projectId);
+        FolderServiceRequest serviceRequest = folderUpdateRequest.toServiceRequest();
+        Folder updateFolder = folderFileService.updateFolder(folderId, serviceRequest.getFolderName(), serviceRequest.getParentFolderId(), projectId);
 
         return ResponseEntity.ok(updateFolder);
     }
 
 
+    /////////////////////////프로젝트내 파일 수정
+    @PatchMapping("/{projectId}/files/{fileId}")
+    public ResponseEntity<File> updateFileInProject(
+            @PathVariable Long projectId,
+            @PathVariable Long fileId,
+            @RequestBody FileUpdateRequest fileUpdateRequest
+    ) {
+
+        Long folderId = null;
+        FileServiceRequest serviceRequest = fileUpdateRequest.toServiceRequest();
+        File updateFile = folderFileService.updateFile(fileId, serviceRequest.getFileName(), serviceRequest.getContent(), serviceRequest.getPath(), folderId, projectId);
+
+
+        return ResponseEntity.ok(updateFile);
+
+    }
+
     /////////////////////////파일 수정
     @PatchMapping("/{projectId}/folders/{folderId}/files/{fileId}")
-    public ResponseEntity<File> patchFile(
+    public ResponseEntity<File> updateFile(
             @PathVariable Long projectId,
             @PathVariable Long folderId,
             @PathVariable Long fileId,
-            @RequestBody Map<String, Object> requestBody
+            @RequestBody FileUpdateRequest fileUpdateRequest
     ) {
-        String fileName = requestBody.containsKey("fileName") ? (String) requestBody.get("fileName") : null;
-        String content = requestBody.containsKey("content") ? (String) requestBody.get("content") : null;
 
-        File updateFile = folderFileService.patchFile(fileId, fileName, content, folderId, projectId);
+        FileServiceRequest serviceRequest = fileUpdateRequest.toServiceRequest();
+        File updateFile = folderFileService.updateFile(fileId, serviceRequest.getFileName(), serviceRequest.getContent(), serviceRequest.getPath(), folderId, projectId);
 
         return ResponseEntity.ok(updateFile);
 
@@ -147,7 +173,7 @@ public class FolderFileController {
     /////////////////////////폴더 삭제
     @DeleteMapping("/{projectId}/folders/{folderId}")
     public ResponseEntity<Void> deleteFolder(
-            @PathVariable Long projectId,
+            //@PathVariable Long projectId,
             @PathVariable Long folderId
     ) {
         folderFileService.deleteFolderWithContents(folderId);
@@ -158,8 +184,8 @@ public class FolderFileController {
     /////////////////////////파일 삭제
     @DeleteMapping("/{projectId}/folders/{folderId}/files/{fileId}")
     public ResponseEntity<Void> deleteFile(
-            @PathVariable Long projectId,
-            @PathVariable Long folderId,
+            //@PathVariable Long projectId,
+            //@PathVariable Long folderId,
             @PathVariable Long fileId
     ) {
         folderFileService.deleteFile(fileId);
