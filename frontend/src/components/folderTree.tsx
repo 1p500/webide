@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { GetProjectsProjectIdResponse } from '../../lib/projectTypes';
 import axios from 'axios';
@@ -71,10 +71,10 @@ export const Tree = ({ projectId }: { projectId: number }) => {
   return (
     <div>
       {data.folders.map((folder) => (
-        <Folder type='folder' id={folder.id} name={folder.name} />
+        <Folder key={folder.id} type='folder' id={folder.id} name={folder.name} />
       ))}
       {data.files.map((file) => (
-        <File type='file' id={file.id} name={file.name} contents={file.content} />
+        <File key={file.id} type='file' id={file.id} name={file.name} contents={file.content} />
       ))}
     </div>
   );
