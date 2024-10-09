@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import ProjectListModal from '@/components/projectModal'; // Modal 컴포넌트 가져오기
 import CodeEditor from '@/components/codeEditor';
 import { Tree } from '@/components/folderTree';
+import Chat from '@/components/chatWindow';
 // import { GetProjectsRootResponse, Folder } from '../../../../lib/projectTypes';
 
 export default function IdePage() {
@@ -48,7 +49,7 @@ export default function IdePage() {
         ) : (
         <p>Please select a project to begin working on it.</p>
         )}
-        {/* <Chat /> */}
+        <Chat />
     </div>
     );
 }
