@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import axiosInstance from '../axiosInstance';
 import { LoginRequest, LoginResponse } from '../../../lib/authTypes';
 import { useRouter } from 'next/navigation';
-import { useProjects } from '../useProjects';
+// import { useProjects } from '../useProjects';
 
 
 export const useLogin = () => {
@@ -16,8 +16,8 @@ export const useLogin = () => {
   // useMutation을 정의할 때 제네릭 타입 설정
   const mutation = useMutation<LoginResponse, Error, LoginRequest>({
     mutationFn: async ({ loginid, password }: LoginRequest): Promise<LoginResponse> => {
-      // API 요청 (Mock 데이터가 반환됨)
-      const response = await axiosInstance.post<LoginResponse>('/API_URL', { loginid, password });
+      
+      const response = await axiosInstance.post<LoginResponse>(API_URL, { loginid, password });
       return response.data;
     },
     onSuccess: (data: LoginResponse) => {
@@ -27,7 +27,7 @@ export const useLogin = () => {
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken);
       
-      useProjects(data.accessToken);
+      // useProjects(data.accessToken);
       router.push('/ide/[projectPage]');
     },
     onError: (error) => {

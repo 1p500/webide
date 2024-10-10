@@ -10,7 +10,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [name, setName] = useState('');
+  // const [name, setName] = useState('');
 
   const signupMutation = useSignup();
 
@@ -35,16 +35,16 @@ export default function SignupPage() {
       return;
     }
     // 이름이 비어있는지 검사
-    if (name.trim() === ''){
-      alert('이름을 입력해주세요.');
-      return;
-    }
+    // if (name.trim() === ''){
+    //   alert('이름을 입력해주세요.');
+    //   return;
+    // }
 
     signupMutation.mutate({
       loginid: email,
-      password,
+      password: password,
       passwordCheck: confirmPassword,
-      name,
+      // name,
     });
   }
 
@@ -121,7 +121,7 @@ export default function SignupPage() {
               onChange={(e)=>setConfirmPassword(e.target.value)}
             />
           </div>
-          {/* 이름 입력 */}
+          {/* 이름 입력
           <div>
             <label
               htmlFor="user-name"
@@ -139,7 +139,7 @@ export default function SignupPage() {
               value={name}
               onChange={(e)=>setName(e.target.value)}
             />
-          </div>
+          </div> */}
           {/* 가입 버튼 */}
           <div>
             <button

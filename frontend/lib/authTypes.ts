@@ -13,7 +13,7 @@ export interface LoginResponse {
   user: {
     id: number;
     loginid: string;
-    name: string;
+    // name: string;
   };
 }
 
@@ -22,14 +22,14 @@ export interface SignupRequest {
   loginid: string;
   password: string;
   passwordCheck: string;
-  name: string;
+  // name: string;
 }
 
 // 회원가입 응답 데이터 타입
 export interface SignupResponse {
   id: number;
   loginid: string;
-  name: string;
+  // name: string;
   createdAt: string;
 }
 
@@ -39,6 +39,6 @@ export interface SocialLoginResponse {
   user: {
     id: number;
     loginid: string;
-    name: string;
+    // name: string;
   };
 }

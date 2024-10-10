@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// //테스트용
+
 // import MockAdapter from 'axios-mock-adapter';
 
 // Axios 인스턴스 생성

@@ -1,6 +1,7 @@
 "use client";
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+// import { useQueryClient } from '@tanstack/react-query';
 import axiosInstance from './axiosInstance';
 import { PostProjectCreateRequest, PostProjectCreateResponse } from '../../lib/projectTypes';
 
@@ -24,7 +25,7 @@ export const createProject = async (token: string, name: string, description: st
 
 // useCreateProject 훅 (프로젝트 생성)
 export const useCreateProject = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const API_URL = '/project/create'
   return useMutation<PostProjectCreateResponse, Error, PostProjectCreateRequest>({
     mutationFn: async (newProjectData: PostProjectCreateRequest) => {

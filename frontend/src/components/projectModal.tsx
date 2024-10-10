@@ -2,11 +2,10 @@
 
 import React, { useState } from 'react';
 
-import {useQueryClient} from "@tanstack/react-query"
 import { useProjects } from './useProjects';
 import { CreateReadUpdateProject } from '../../lib/projectTypes';
 import ProjectAddModal from './createProject';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 interface ModalProps {
   isOpen: boolean;
@@ -30,7 +29,7 @@ export default function ProjectListModal({ isOpen, onClose, token, onProjectSele
   if (isError){
     return <p>Error</p>
   }
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleProjectClick = (projectId: number) => {
     onProjectSelect(projectId); 
